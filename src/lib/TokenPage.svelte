@@ -81,7 +81,7 @@
         if (currentProvider) {
             await refreshTokens();
             tokensLoaded = true;
-            dataRefreshInterval = setInterval(refreshData, 5000);
+            dataRefreshInterval = setInterval(refreshData, 60000);
         }
     });
 
