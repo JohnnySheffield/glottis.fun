@@ -231,9 +231,15 @@
                 <button 
                     on:click={mintTokens}
                     class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={isLoading}
+                    disabled={isLoading || !wallet}
                 >
-                    {isLoading ? 'Processing...' : 'Mint Tokens'}
+                    {#if !wallet}
+                        Connect Wallet to Mint
+                    {:else if isLoading}
+                        Processing...
+                    {:else}
+                        Mint Tokens
+                    {/if}
                 </button>
             </div>
         {:else if activeTab === 'burn'}
@@ -290,9 +296,15 @@
                 <button 
                     on:click={burnTokens}
                     class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={isLoading}
+                    disabled={isLoading || !wallet}
                 >
-                    {isLoading ? 'Processing...' : 'Burn Tokens'}
+                    {#if !wallet}
+                        Connect Wallet to Burn
+                    {:else if isLoading}
+                        Processing...
+                    {:else}
+                        Burn Tokens
+                    {/if}
                 </button>
             </div>
         {:else if activeTab === 'deploy'}
@@ -326,9 +338,15 @@
                 <button 
                     on:click={deployUniswap}
                     class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={isLoading}
+                    disabled={isLoading || !wallet}
                 >
-                    {isLoading ? 'Deploying...' : 'Deploy Uniswap Market'}
+                    {#if !wallet}
+                        Connect Wallet to Deploy
+                    {:else if isLoading}
+                        Deploying...
+                    {:else}
+                        Deploy Uniswap Market
+                    {/if}
                 </button>
             </div>
         {/if}

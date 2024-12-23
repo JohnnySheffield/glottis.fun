@@ -93,9 +93,12 @@
                 tokenBalance = balance;
             }
 
-            // Initialize glottisMint contract
+            // Initialize glottisMint contract with provider for read-only operations
+            glottisMintContract = new ethers.Contract(GLOTTIS_MINT_ADDRESS, GLOTTIS_MINT_ABI, provider);
+            
+            // If wallet is connected, use it as signer for write operations
             if (wallet) {
-                glottisMintContract = new ethers.Contract(GLOTTIS_MINT_ADDRESS, GLOTTIS_MINT_ABI, wallet);
+                glottisMintContract = glottisMintContract.connect(wallet);
             }
 
             // Load trade history
