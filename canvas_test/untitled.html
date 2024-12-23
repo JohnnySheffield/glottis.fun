@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Resizer</title>
+    <style>
+        canvas {
+          image-rendering: pixelated;
+        }
+        img {
+          image-rendering: pixelated;
+        }
+    </style>
+</head>
+<body>
+    <input type="file" id="file-input" accept="image/*">
+    <div id="image-container"></div>
+    <div id="canvas-container"></div>
+
+    <script>
+        // Copy and paste the JavaScript code here
+        const fileInput = document.getElementById('file-input');
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const imageData = event.target.result;
+                    const myImage = new Image();
+                    myImage.src = imageData;
+
+                setTimeout(()=>{
+                    const imageData = event.target.result;
+                    const myImage = new Image();
+                    myImage.src = imageData;
+
+
+                    const canvas = document.createElement('canvas');
+                    document.getElementById('canvas-container').appendChild(canvas);
+                    const ctx = canvas.getContext('2d');
+
+                    // Set the canvas dimensions to the desired size
+                    canvas.width = 16;
+                    canvas.height = 16;
+
+                    // Draw the image on the canvas
+                    ctx.drawImage(myImage, 0, 0, canvas.width, canvas.height);
+
+                    // Get the resized image data
+                    const resizedImageData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+
+                    const resizedImageData2 = canvas.toDataURL();
+
+                    console.log(resizedImageData2)
+
+                    const resizedBlob = new Blob([resizedImageData], { type: 'image/jpeg' });
+                    const resizedBase64Url = URL.createObjectURL(resizedBlob);
+                    const newImg = new Image();
+                    newImg.src = resizedImageData2;
+                    // Use the resized base64 URL in the HTML element's src attribute
+                    const imgElement = document.createElement('img');
+                    
+                    document.getElementById('image-container').appendChild(newImg);
+                }, 1000)
+                
+            };
+            reader.readAsDataURL(file);
+        });
+    </script>
+</body>
+</html>
