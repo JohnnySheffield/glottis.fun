@@ -1,4 +1,8 @@
-# Glottis Protocol
+> :warning: **Development Status: Pre-audit & Non-Production** 
+> This repo is under active development, have not yet undergone a formal security audit, and is experimental in nature. We strongly advise against using this code in production environments at this stage.
+
+
+# Glottis Protocol Frontend
 
 A permissionless protocol for creating and trading tokens with customizable Bézier bonding curves, designed to ensure fair token launches and efficient price discovery.
 
