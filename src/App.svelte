@@ -1,8 +1,18 @@
+<script context="module">
+    import { ethers } from 'ethers';
+    import { provider } from './stores/web3Store';
+    import { UNICHAN_SEPOLIA_CONFIG } from './lib/wallet';
+
+    // Initialize read-only provider immediately when module loads
+    const readOnlyProvider = new ethers.providers.JsonRpcProvider(UNICHAN_SEPOLIA_CONFIG.rpcUrls[0]);
+    provider.set(readOnlyProvider);
+</script>
+
 <script>
     import { onMount, onDestroy } from 'svelte';
-    import { connectWallet, isWalletConnected as checkWalletConnected, UNICHAN_SEPOLIA_CONFIG } from './lib/wallet';
-    import { account, provider, signer, isWalletConnected, isProviderReady, connectionError } from './stores/web3Store';
-    import { ethers } from 'ethers';
+    import { connectWallet, isWalletConnected as checkWalletConnected } from './lib/wallet';
+    import { account, signer, isWalletConnected, isProviderReady, connectionError } from './stores/web3Store';
+    import { hasAcknowledgedTestnet } from './stores/alertStore';
     import TokenPage from './lib/TokenPage.svelte';
     import TokenDetails from './lib/TokenDetails.svelte';
     import CreateTokenPage from './lib/CreateTokenPage.svelte';
@@ -82,10 +92,6 @@
     onMount(() => {
         handleNavigation();
         window.addEventListener('popstate', handleNavigation);
-
-        // Initialize read-only provider
-        const readOnlyProvider = new ethers.providers.JsonRpcProvider(UNICHAN_SEPOLIA_CONFIG.rpcUrls[0]);
-        provider.set(readOnlyProvider);
 
         // Check if wallet is already connected
         if (checkWalletConnected()) {
@@ -182,6 +188,31 @@
         }
     </style>
 </svelte:head>
+
+{#if !$hasAcknowledgedTestnet}
+    <div class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center">
+        <div class="bg-gray-900 border border-gray-700 p-8 rounded-lg max-w-lg w-full mx-4 relative overflow-hidden">
+            <div class="relative z-10">
+                <h2 class="text-xl mb-4 font-bold text-red-500">⚠️ Testnet Project Warning</h2>
+                <p class="mb-6">
+                    This project is currently running on testnet and is in early development. 
+                    Features may be buggy or incomplete. Use at your own risk. 
+                    Check sources at <a href=">https://github.com/JohnnySheffield/glottis.contracts">glottis.contracts repo</a>
+                    and <a href="https://github.com/JohnnySheffield/glottis.fun">glottis.fun repo</a>
+                </p>
+                <button 
+                    on:click={() => hasAcknowledgedTestnet.set(true)}
+                    class="w-full px-4 py-2 bg-red-900/50 hover:bg-red-800/50 rounded-lg transition-colors border border-red-700"
+                >
+                    I Understand, Continue
+                </button>
+            </div>
+            <div class="absolute inset-0 opacity-50">
+                <div class="absolute inset-0 bg-gradient-to-br from-red-900/20 to-transparent"></div>
+            </div>
+        </div>
+    </div>
+{/if}
 
 <div class="min-h-screen">
     <header class="p-4 border-b border-gray-800">
