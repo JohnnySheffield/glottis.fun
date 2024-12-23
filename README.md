@@ -1,5 +1,5 @@
 > :warning: **Development Status: Pre-audit & Non-Production** 
-> This repo is under active development, have not yet undergone a formal security audit, and is experimental in nature. We strongly advise against using this code in production environments at this stage.
+> This repo is under active development, has not yet undergone a formal security audit, and is experimental in nature. We strongly advise against using this code in production environments at this stage.
 
 
 # Glottis Protocol Frontend
