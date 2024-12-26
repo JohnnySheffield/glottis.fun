@@ -36,6 +36,8 @@
     let tokens = [];
     let tokensLoaded = false;
     let dataRefreshInterval;
+    let currentBlock = 0;
+    let lastProcessedBlock = parseInt(localStorage.getItem('lastProcessedBlock') || '7868796');
 
     function handleTokenClick(token) {
         window.history.pushState({}, '', `/token/${token.address}`);
@@ -49,7 +51,9 @@
 
     async function refreshTokens() {
         if (!currentProvider) return;
+        currentBlock = await currentProvider.getBlockNumber();
         const fetchedTokens = await fetchTokens(currentProvider);
+        lastProcessedBlock = parseInt(localStorage.getItem('lastProcessedBlock') || '7868796');
         tokens = await Promise.all(fetchedTokens.map(async (token) => {
             const glottisMint = new ethers.Contract(GLOTTIS_MINT_ADDRESS, GLOTTIS_MINT_ABI, currentProvider);
             const progress = await getTokenProgress(currentProvider, token.address);
@@ -105,8 +109,16 @@
         {/if}
     </div>
     
-    <div class="overflow-x-auto">
-        <table class="w-full text-xs font-mono">
+    {#if !tokensLoaded}
+        <div class="flex flex-col justify-center items-center h-64 space-y-4">
+            <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+            <div class="text-gray-400">
+                    Discovering tokens...
+            </div>
+        </div>
+    {:else}
+        <div class="overflow-x-auto">
+            <table class="w-full text-xs font-mono">
             <thead>
                 <tr class="bg-gray-800">
                     <th class="p-1 text-left">Token</th>
@@ -193,8 +205,9 @@
                     </tr>
                 {/each}
             </tbody>
-        </table>
-    </div>
+            </table>
+        </div>
+    {/if}
 </div>
 
 <style>

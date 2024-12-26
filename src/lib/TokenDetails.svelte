@@ -31,6 +31,7 @@
     let availableInStep = ethers.BigNumber.from(0);
     let stepSize = ethers.BigNumber.from(0);
     let trades = [];
+    let tradesLoading = true;
     let collectedETH = ethers.BigNumber.from(0);
     let networkInfo = null;
     let currentBlock = null;
@@ -102,7 +103,9 @@
             }
 
             // Load trade history
+            tradesLoading = true;
             trades = await fetchTradeHistory(provider, tokenAddress);
+            tradesLoading = false;
 
         } catch (error) {
             console.error('Error loading token:', error);
@@ -139,7 +142,7 @@
             <div class="bg-gray-800/50 backdrop-blur rounded-lg shadow-xl p-6 border border-gray-700">
                 <div class="flex gap-6">
                     <BondingCurve {token} {currentStep} {availableInStep} />
-                    <TradeHistory {trades} {token} />
+                    <TradeHistory {trades} {token} loading={tradesLoading} />
                 </div>
             </div>
 

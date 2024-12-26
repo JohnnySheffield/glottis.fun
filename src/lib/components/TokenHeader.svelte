@@ -26,7 +26,7 @@
             <div class="flex items-center gap-3">
                 {#if isValidMeta && unpackedMetadata.logoUrl}
                     <img 
-                        src={unpackedMetadata.logoUrl} 
+                        src={unpackedMetadata.logoUrl.startsWith('http') ? unpackedMetadata.logoUrl : `https://${unpackedMetadata.logoUrl}`} 
                         alt="{token.name} logo" 
                         class="w-10 h-10 rounded-full bg-gray-800 border border-gray-700/50"
                         on:error={handleImageError}
@@ -71,19 +71,25 @@
                 {#if unpackedMetadata.social}
                     <div class="flex gap-3">
                         {#if unpackedMetadata.social.link1}
-                            <a href={unpackedMetadata.social.link1} target="_blank" rel="noopener noreferrer" 
+                            <a href={unpackedMetadata.social.link1.startsWith('http') ? unpackedMetadata.social.link1 : `https://${unpackedMetadata.social.link1}`} 
+                               target="_blank" 
+                               rel="noopener noreferrer" 
                                class="text-blue-400 hover:text-blue-300 text-sm">
                                 Link 1
                             </a>
                         {/if}
                         {#if unpackedMetadata.social.link2}
-                            <a href={unpackedMetadata.social.link2} target="_blank" rel="noopener noreferrer"
+                            <a href={unpackedMetadata.social.link2.startsWith('http') ? unpackedMetadata.social.link2 : `https://${unpackedMetadata.social.link2}`} 
+                               target="_blank" 
+                               rel="noopener noreferrer"
                                class="text-indigo-400 hover:text-indigo-300 text-sm">
                                 Link 2
                             </a>
                         {/if}
                         {#if unpackedMetadata.social.link3}
-                            <a href={unpackedMetadata.social.link3} target="_blank" rel="noopener noreferrer"
+                            <a href={unpackedMetadata.social.link3.startsWith('http') ? unpackedMetadata.social.link3 : `https://${unpackedMetadata.social.link3}`} 
+                               target="_blank" 
+                               rel="noopener noreferrer"
                                class="text-green-400 hover:text-green-300 text-sm">
                                 Link 3
                             </a>

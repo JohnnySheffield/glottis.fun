@@ -3,6 +3,7 @@
     import { shortenAddress } from '../utils/token';
 
     export let trades;
+    export let loading = false;
     export let token;
 
     function formatDate(timestamp) {
@@ -39,7 +40,25 @@
     </div>
     
     <div class="space-y-2 max-h-[585px] overflow-y-auto pr-2 custom-scrollbar">
-        {#if trades.length > 0}
+        {#if loading}
+            {#each Array(3) as _}
+                <div class="bg-gray-900/70 rounded-lg border border-gray-800/50 animate-pulse">
+                    <div class="p-3">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="h-5 w-16 bg-gray-800 rounded"></div>
+                            <div class="h-4 w-20 bg-gray-800 rounded"></div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="h-6 w-28 bg-gray-800 rounded"></div>
+                            <div class="text-right">
+                                <div class="h-5 w-24 bg-gray-800 rounded mb-1"></div>
+                                <div class="h-4 w-20 bg-gray-800 rounded"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {/each}
+        {:else if trades.length > 0}
             {#each trades as trade}
                 <div class="group bg-gray-900/70 hover:bg-gray-900/90 rounded-lg border border-gray-800/50 hover:border-gray-700/50 transition-colors duration-150">
                     <!-- Top Section -->
